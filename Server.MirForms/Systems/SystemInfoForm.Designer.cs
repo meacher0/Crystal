@@ -136,6 +136,7 @@
             MaxHeroSealCount_textBox = new TextBox();
             MinPlayerLevelHero_textBox = new TextBox();
             groupBox3 = new GroupBox();
+            AllowMonkHero_checkBox = new CheckBox();
             AllowArcherHero_checkBox = new CheckBox();
             AllowAssassinHero_checkBox = new CheckBox();
             AllowTaoistHero_checkBox = new CheckBox();
@@ -1157,9 +1158,9 @@
             // groupBox6
             // 
             groupBox6.Controls.Add(HeroSealItem_ComboBox);
-            groupBox6.Location = new Point(10, 172);
+            groupBox6.Location = new Point(10, 202);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(172, 81);
+            groupBox6.Size = new Size(172, 51);
             groupBox6.TabIndex = 3;
             groupBox6.TabStop = false;
             groupBox6.Text = "Hero Seal Item";
@@ -1168,7 +1169,7 @@
             // HeroSealItem_ComboBox
             // 
             HeroSealItem_ComboBox.FormattingEnabled = true;
-            HeroSealItem_ComboBox.Location = new Point(12, 34);
+            HeroSealItem_ComboBox.Location = new Point(6, 22);
             HeroSealItem_ComboBox.Name = "HeroSealItem_ComboBox";
             HeroSealItem_ComboBox.Size = new Size(147, 23);
             HeroSealItem_ComboBox.TabIndex = 0;
@@ -1323,6 +1324,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(AllowMonkHero_checkBox);
             groupBox3.Controls.Add(AllowArcherHero_checkBox);
             groupBox3.Controls.Add(AllowAssassinHero_checkBox);
             groupBox3.Controls.Add(AllowTaoistHero_checkBox);
@@ -1330,7 +1332,7 @@
             groupBox3.Controls.Add(AllowWarriorHero_checkBox);
             groupBox3.Location = new Point(10, 31);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(172, 138);
+            groupBox3.Size = new Size(172, 165);
             groupBox3.TabIndex = 0;
             groupBox3.TabStop = false;
             groupBox3.Text = "Hero Creation";
@@ -1414,6 +1416,19 @@
             AllowNewHero_checkBox.UseVisualStyleBackColor = true;
             AllowNewHero_checkBox.CheckedChanged += AllowNewHero_checkBox_CheckedChanged;
             // 
+            // AllowMonkHero_checkBox
+            // 
+            AllowMonkHero_checkBox.AutoSize = true;
+            AllowMonkHero_checkBox.CheckAlign = ContentAlignment.MiddleRight;
+            AllowMonkHero_checkBox.Location = new Point(30, 135);
+            AllowMonkHero_checkBox.Name = "AllowMonkHero_checkBox";
+            AllowMonkHero_checkBox.Size = new Size(119, 19);
+            AllowMonkHero_checkBox.TabIndex = 6;
+            AllowMonkHero_checkBox.Text = "Allow Monk Hero";
+            AllowMonkHero_checkBox.UseVisualStyleBackColor = true;
+            toolTip1.SetToolTip(AllowMonkHero_checkBox, "Enable/Disable the creation of Monk Heroes");
+            AllowMonkHero_checkBox.CheckedChanged += AllowMonkHero_checkBox_CheckedChanged;
+            // 
             // SystemInfoForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1462,6 +1477,11 @@
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ResumeLayout(false);
+        }
+
+        private void AllowMonkHero_checkBox_CheckedChanged1(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -1560,6 +1580,7 @@
         private GroupBox groupBox5;
         private GroupBox groupBox4;
         private GroupBox groupBox3;
+        private CheckBox AllowMonkHero_checkBox;
         private CheckBox AllowArcherHero_checkBox;
         private CheckBox AllowAssassinHero_checkBox;
         private CheckBox AllowTaoistHero_checkBox;

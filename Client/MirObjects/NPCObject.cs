@@ -454,6 +454,10 @@ namespace Client.MirObjects
                         if (!quest.ClassNeeded.HasFlag(RequiredClass.Archer))
                             return false;
                         break;
+                    case MirClass.Monk:
+                        if (!quest.ClassNeeded.HasFlag(RequiredClass.Monk))
+                            return false;
+                        break;
                 }
             }
 

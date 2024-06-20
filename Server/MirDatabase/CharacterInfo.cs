@@ -72,6 +72,9 @@ namespace Server.MirDatabase
         public byte MentalState;
         public byte MentalStateLvl;
 
+        //Monk
+        public bool LuoHanGunFa, DaMoGunFa, TianLeiZhen;
+
         public UserItem[] Inventory = new UserItem[46], Equipment = new UserItem[14], Trade = new UserItem[10], QuestInventory = new UserItem[40], Refine = new UserItem[16];
         public List<ItemRentalInformation> RentedItems = new List<ItemRentalInformation>();
         public List<ItemRentalInformation> RentedItemsToRemove = new List<ItemRentalInformation>();

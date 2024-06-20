@@ -81,7 +81,8 @@ namespace Server
                            AllowDeleteCharacter = true,
                            AllowStartGame = false,
                            AllowCreateAssassin = true,
-                           AllowCreateArcher = true;
+                           AllowCreateArcher = true,
+                           AllowCreateMonk = true;
 
         public static int AllowedResolution = 1024;
 
@@ -155,6 +156,7 @@ namespace Server
                              BombSpiderName = "BombSpider",
                              CloneName = "Clone",
                              AssassinCloneName = "AssassinClone",
+                             MonkCloneName = "MonkClone",
                              VampireName = "VampireSpider",
                              ToadName = "SpittingToad",
                              SnakeTotemName = "SnakeTotem",
@@ -245,7 +247,7 @@ namespace Server
         public static uint GoodsBuyBackMaxStored = 20;
         public static bool GoodsHideAddedStats = true;
 
-        public static BaseStats[] ClassBaseStats = new BaseStats[5] { new BaseStats(MirClass.Warrior), new BaseStats(MirClass.Wizard), new BaseStats(MirClass.Taoist), new BaseStats(MirClass.Assassin), new BaseStats(MirClass.Archer) };
+        public static BaseStats[] ClassBaseStats = new BaseStats[6] { new BaseStats(MirClass.Warrior), new BaseStats(MirClass.Wizard), new BaseStats(MirClass.Taoist), new BaseStats(MirClass.Assassin), new BaseStats(MirClass.Archer), new BaseStats(MirClass.Monk) };
 
         public static List<RandomItemStat> RandomItemStatsList = new List<RandomItemStat>();
         public static List<MineSet> MineSetList = new List<MineSet>();
@@ -365,6 +367,7 @@ namespace Server
             AllowStartGame = Reader.ReadBoolean("Permission", "AllowStartGame", AllowStartGame);
             AllowCreateAssassin = Reader.ReadBoolean("Permission", "AllowCreateAssassin", AllowCreateAssassin);
             AllowCreateArcher = Reader.ReadBoolean("Permission", "AllowCreateArcher", AllowCreateArcher);
+            AllowCreateMonk = Reader.ReadBoolean("Permission", "AllowCreateMonk", AllowCreateMonk);
             AllowedResolution = Reader.ReadInt32("Permission", "MaxResolution", AllowedResolution);
 
             //Optional
@@ -435,6 +438,7 @@ namespace Server
             CloneName = Reader.ReadString("Game", "CloneName", CloneName);
             FishingMonster = Reader.ReadString("Game", "FishMonster", FishingMonster);
             AssassinCloneName = Reader.ReadString("Game", "AssassinCloneName", AssassinCloneName);
+            MonkCloneName = Reader.ReadString("Game", "MonkCloneName", MonkCloneName);
             VampireName = Reader.ReadString("Game", "VampireName", VampireName);
             ToadName = Reader.ReadString("Game", "ToadName", ToadName);
             SnakeTotemName = Reader.ReadString("Game", "SnakeTotemName", SnakeTotemName);
@@ -636,6 +640,7 @@ namespace Server
             Reader.Write("Permission", "AllowStartGame", AllowStartGame);
             Reader.Write("Permission", "AllowCreateAssassin", AllowCreateAssassin);
             Reader.Write("Permission", "AllowCreateArcher", AllowCreateArcher);
+            Reader.Write("Permission", "AllowCreateMonk", AllowCreateMonk);
             Reader.Write("Permission", "MaxResolution", AllowedResolution);
 
             //Optional
@@ -699,6 +704,7 @@ namespace Server
             Reader.Write("Game", "BombSpiderName", BombSpiderName);
             Reader.Write("Game", "CloneName", CloneName);
             Reader.Write("Game", "AssassinCloneName", AssassinCloneName);
+            Reader.Write("Game", "MonkCloneName", MonkCloneName);
 
             Reader.Write("Game", "VampireName", VampireName);
             Reader.Write("Game", "ToadName", ToadName);

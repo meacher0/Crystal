@@ -6,7 +6,7 @@ namespace Client.MirScenes.Dialogs
 {
     public class RankingDialog : MirImageControl
     {
-        public MirButton AllButton, WarButton, WizButton, TaoButton, SinButton, ArchButton, Tab7, NextButton, PrevButton, ScrollBar;
+        public MirButton AllButton, WarButton, WizButton, TaoButton, SinButton, ArchButton, MonkButton, Tab7, NextButton, PrevButton, ScrollBar;
         public MirButton CloseButton;
         public MirLabel MyRank;
         public MirCheckBox OnlineOnlyButton;
@@ -127,6 +127,18 @@ namespace Client.MirScenes.Dialogs
                 Sound = SoundList.ButtonA,
             };
             ArchButton.Click += (o, e) => SelectRank(5);
+            MonkButton = new MirButton
+            {
+                Index = 766,
+                PressedIndex = 767,
+                HoverIndex = 768,
+                Library = Libraries.Title,
+                Hint = "TOP 20 Monks",
+                Location = new Point(140, 38),
+                Parent = this,
+                Sound = SoundList.ButtonA,
+            };
+            MonkButton.Click += (o, e) => SelectRank(6);
 
             NextButton = new MirButton
             {

@@ -5,6 +5,7 @@ using Server.MirNetwork;
 using Server.MirObjects.Monsters;
 using System.Numerics;
 using S = ServerPackets;
+using System;
 
 namespace Server.MirObjects
 {
@@ -205,6 +206,11 @@ namespace Server.MirObjects
         public List<EquipmentSlot> MirSet = new List<EquipmentSlot>();
 
         public bool FatalSword, Slaying, TwinDrakeBlade, FlamingSword, MPEater, Hemorrhage, CounterAttack;
+
+        //Monk
+        public bool DaMoGunFa;
+        public long DaMoGunFaTime;
+
         public int MPEaterCount, HemorrhageAttackCount;
         public long FlamingSwordTime, CounterAttackTime;
         public bool ActiveBlizzard, ActiveReincarnation, ActiveSwiftFeet, ReincarnationReady;
@@ -263,6 +269,13 @@ namespace Server.MirObjects
             {
                 FlamingSword = false;
                 Enqueue(new S.SpellToggle { ObjectID = ObjectID, Spell = Spell.FlamingSword, CanUse = false });
+            }
+
+            //Monk
+            if (DaMoGunFa && Envir.Time >= DaMoGunFaTime)
+            {
+                DaMoGunFa = false;
+                Enqueue(new S.SpellToggle { Spell = Spell.DaMoGunFa, CanUse = false });
             }
 
             if (CounterAttack && Envir.Time >= CounterAttackTime)
@@ -1075,6 +1088,13 @@ namespace Server.MirObjects
                         return false;
                     } 
                     break;
+                case MirClass.Monk:
+                    if (!item.Info.RequiredClass.HasFlag(RequiredClass.Monk))
+                    {
+                        ReceiveChat("Monks cannot use this item.", ChatType.System);
+                        return false;
+                    }
+                    break;
             }
 
             switch (item.Info.RequiredType)
@@ -1645,6 +1665,9 @@ namespace Server.MirObjects
                     break;
                 case MirClass.Archer:
                     if (!info.RequiredClass.HasFlag(RequiredClass.Archer)) return false;
+                    break;
+                case MirClass.Monk:
+                    if (!info.RequiredClass.HasFlag(RequiredClass.Monk)) return false;
                     break;
                 default:
                     return false;
@@ -2285,7 +2308,6 @@ namespace Server.MirObjects
                 {
                     case Spell.Fencing:
                         Stats[Stat.Accuracy] += magic.Level * 3;
-                        // Stats[Stat.MaxAC] += (magic.Level + 1) * 3;
                         break;
                     // case Spell.FatalSword:
                     case Spell.Slaying:
@@ -2294,8 +2316,10 @@ namespace Server.MirObjects
                         break;
                     case Spell.SpiritSword:
                         Stats[Stat.Accuracy] += spiritSwordLvPlus[magic.Level];
-                        // Stats[Stat.Accuracy] += magic.Level;
-                        // Stats[Stat.MaxDC] += (int)(Stats[Stat.MaxSC] * (magic.Level + 1) * 0.1F);
+                        break;
+                    case Spell.JiBenGunFa:
+                        Stats[Stat.Accuracy] += magic.Level * 2 + 2;
+                        Stats[Stat.MaxAC] += (magic.Level + 1) * 1;
                         break;
                 }
             }
@@ -3730,6 +3754,21 @@ namespace Server.MirObjects
                     HealingCircle(magic, spellTargetLock ? (target != null ? target.CurrentLocation : location) : location);
                     break;
 
+                #region Monk Spells
+                case Spell.JinGangGunFa:
+                    JinGangGunFa(magic);
+                    break;
+                case Spell.XiangLongGunFa:
+                    XiangLongGunFa(magic, out cast);
+                    break;
+                case Spell.ShiBuYiSha:
+                    ShiBuYiSha(magic, location);
+                    break;
+                case Spell.Bisul:
+                    Bisul(magic, target, cast);
+                    break;
+                #endregion Monk Spells
+
                 //Custom Spells
                 case Spell.Portal:
                     Portal(magic, location, out cast);
@@ -4174,6 +4213,44 @@ namespace Server.MirObjects
             DelayedAction action = new DelayedAction(DelayedType.Magic, Envir.Time + 500, this, magic, damage, CurrentLocation);
             CurrentMap.ActionList.Add(action);
         }
+
+        #region Monk
+        private void LuoHanZhen(MapObject target, UserMagic magic)
+        {
+            MonsterObject monster;
+            for (int i = 0; i < Pets.Count; i++)
+            {
+                monster = Pets[i];
+                if ((monster.Info.Name != Settings.MonkCloneName) || monster.Dead) continue;
+                if (monster.Node == null) continue;
+                monster.Die();
+            }
+
+            RegenMonsterByName(Settings.MonkCloneName, CurrentLocation.X - 1, CurrentLocation.Y - 1);
+            RegenMonsterByName(Settings.MonkCloneName, CurrentLocation.X - 1, CurrentLocation.Y + 1);
+            RegenMonsterByName(Settings.MonkCloneName, CurrentLocation.X + 1, CurrentLocation.Y - 1);
+            RegenMonsterByName(Settings.MonkCloneName, CurrentLocation.X + 1, CurrentLocation.Y + 1);
+
+            LevelMagic(magic);
+        }
+
+        public MonsterObject RegenMonsterByName(string name, int x, int y)
+        {
+            MonsterObject mob = MonsterObject.GetMonster(Envir.GetMonsterInfo(name));
+            if (mob == null)
+                return null;
+
+            mob.Spawn(CurrentMap, new Point(x, y));
+            mob.Owner = this;
+            mob.Master = this;
+            mob.ActionTime = Envir.Time + 500;
+            mob.RefreshNameColour(false);
+            Pets.Add(mob);
+
+            return mob;
+        }
+        #endregion Monk
+
         private void Mirroring(UserMagic magic)
         {
             MonsterObject monster;
@@ -5651,6 +5728,118 @@ namespace Server.MirObjects
         }
         #endregion
 
+        #region Monk Skills
+        private void ShiBuYiSha(UserMagic magic, Point location)
+        {
+            int damage = magic.GetDamage(GetAttackPower(Stats[Stat.MinSC], Stats[Stat.MaxSC]));
+            DelayedAction action = new DelayedAction(DelayedType.Magic, Envir.Time + 500, magic, damage, location);
+            ActionList.Add(action);
+        }
+
+        private void Bisul(UserMagic magic, MapObject target, bool cast)
+        {
+            ActionList.Add(new DelayedAction(DelayedType.Magic, Envir.Time + 500, magic));
+            cast = true;
+        }
+
+        private void JinGangGunFa(UserMagic magic)
+        {
+            int damage = magic.GetDamage(GetAttackPower(Stats[Stat.MinSC], Stats[Stat.MaxSC]));
+            DelayedAction action = new DelayedAction(DelayedType.Magic, Envir.Time + 500, this, magic, damage, CurrentLocation, Direction);
+            CurrentMap.ActionList.Add(action);
+        }
+
+        private void XiangLongGunFa(UserMagic magic, out bool cast)
+        {
+            cast = true;
+
+            // damage
+            int damageBase = GetAttackPower(Stats[Stat.MinSC], Stats[Stat.MaxSC]);
+            int damageFinal = magic.GetDamage(damageBase);
+
+            // objects = this, magic, damage, currentlocation, direction, attackRange
+            DelayedAction action = new DelayedAction(DelayedType.Magic, Envir.Time + 500, this, magic, damageFinal, CurrentLocation, Direction, 1);
+            CurrentMap.ActionList.Add(action);
+
+            // telpo location
+            Point location = Functions.PointMove(CurrentLocation, Direction, 2);
+
+            if (!CurrentMap.ValidPoint(location)) return;
+
+            var cellObjects = CurrentMap.GetCell(location).Objects;
+
+            bool blocked = false;
+            if (cellObjects != null)
+            {
+                for (int c = 0; c < cellObjects.Count; c++)
+                {
+                    MapObject ob = cellObjects[c];
+                    if (!ob.Blocking) continue;
+                    blocked = true;
+                    if ((cellObjects == null) || blocked) break;
+                }
+            }
+
+            // blocked telpo cancel
+            if (blocked) return;
+
+            Teleport(CurrentMap, location, false);
+        }
+
+        public void DamageHalo()
+        {
+            int damageBase = GetAttackPower(Stats[Stat.MinSC], Stats[Stat.MaxSC]);
+            UserMagic magic = GetMagic(Spell.TianLeiZhen);
+            if (magic == null)
+                return;
+
+            int value = magic.GetDamage(damageBase);
+            Point location = Owner.CurrentLocation;
+            Map map = Owner.CurrentMap;
+
+            int cost = magic.Info.BaseCost + magic.Info.LevelCost * magic.Level;
+            if (cost > MP)
+                return;
+
+            ChangeMP(-cost);
+            Enqueue(new S.ObjectEffect { ObjectID = ObjectID, Effect = SpellEffect.TianLeiZhen });
+            Broadcast(new S.ObjectEffect { ObjectID = ObjectID, Effect = SpellEffect.TianLeiZhen });
+            LevelMagic(magic);
+
+            for (int y = location.Y - 1; y <= location.Y + 1; y++)
+            {
+                if (y < 0) continue;
+                if (y >= map.Height) break;
+
+                for (int x = location.X - 1; x <= location.X + 1; x++)
+                {
+                    if (x < 0) continue;
+                    if (x >= map.Width) break;
+
+                    List<MapObject> cellObjects = map.GetCell(x, y).Objects;
+
+                    if (cellObjects == null) continue;
+
+                    for (int i = 0; i < cellObjects.Count; i++)
+                    {
+                        MapObject target = cellObjects[i];
+                        switch (target.Race)
+                        {
+                            case ObjectType.Monster:
+                            case ObjectType.Player:
+                                //Only targets
+                                if (!target.IsAttackTarget(this)) break;
+
+                                target.Attacked(this, value, DefenceType.MAC, false);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion Monk Skills
+
         #region Custom
         private void Portal(UserMagic magic, Point location, out bool cast)
         {
@@ -6615,7 +6804,72 @@ namespace Server.MirObjects
                         CurrentMap.ActionList.Add(act);
                         break;
                     }
-                    #endregion
+                #endregion
+
+                #region Monk
+                #region ShiBuYiSha
+                case Spell.ShiBuYiSha:
+                    value = (int)data[1];
+                    location = (Point)data[2];
+
+                    if (CurrentMap.Info.NoTeleport)
+                    {
+                        ReceiveChat(("You cannot teleport on this map"), ChatType.System);
+                        return;
+                    }
+                    if (!CurrentMap.ValidPoint(location) || !Teleport(CurrentMap, location, false)) return;
+                    CurrentMap.Broadcast(new S.ObjectEffect { ObjectID = ObjectID, Effect = SpellEffect.ShiBuYiSha }, CurrentLocation);
+
+                    for (int y = location.Y - 2; y <= location.Y + 2; y++)
+                    {
+                        if (y < 0) continue;
+                        if (y >= CurrentMap.Height) break;
+
+                        for (int x = location.X - 2; x <= location.X + 2; x++)
+                        {
+                            if (x < 0) continue;
+                            if (x >= CurrentMap.Width) break;
+
+                            var cellObjects = CurrentMap.GetCell(x, y).Objects;
+
+                            if (cellObjects == null) continue;
+
+                            for (int i = 0; i < cellObjects.Count; i++)
+                            {
+                                target = cellObjects[i];
+                                switch (target.Race)
+                                {
+                                    case ObjectType.Monster:
+                                    case ObjectType.Player:
+                                        //Only targets
+                                        if (!target.IsAttackTarget(this)) break;
+
+                                        target.Attacked(this, value, DefenceType.MAC, false);
+                                        break;
+                                }
+                            }
+
+                        }
+                    }
+                    AddBuff(BuffType.TemporalFlux, this, Settings.Second * 30, new Stats { [Stat.TeleportManaPenaltyPercent] = 30 });
+                    LevelMagic(magic);
+                    break;
+                #endregion ShiBuYiSha
+
+                #region Bisul
+                case Spell.Bisul:
+                    {
+                        //int duration = (10 + 5 * magic.Level + Stat.MaxMc / 10 * 1000);
+                        int time = (10 + (5 * magic.Level)) + magic.GetDamage(GetAttackPower(Stats[Stat.MinMC], Stats[Stat.MaxMC])) / 10 * 1000;
+
+                        //AddBuff(new Buff { Type = BuffType.Bisul, Caster = this, ExpireTime = Envir.Time + duration, Visible = true });
+                        //AddBuff(BuffType.Bisul, this, time,  null); -1st attempt, crashes server
+                        LevelMagic(magic);
+                    }
+                    break;
+                    #endregion Bisul
+
+                #endregion Monk
 
             }
         }
@@ -6676,6 +6930,7 @@ namespace Server.MirObjects
                 {
                     case Spell.Fencing:
                     case Spell.SpiritSword:
+                    case Spell.JiBenGunFa:
                         LevelMagic(magic);
                         break;
                 }
@@ -7608,6 +7863,10 @@ namespace Server.MirObjects
                     if (!item.Info.RequiredClass.HasFlag(RequiredClass.Assassin))
                         return false;
                     break;
+                case MirClass.Monk:
+                    if (!item.Info.RequiredClass.HasFlag(RequiredClass.Monk))
+                        return false;
+                    break;
             }
 
             switch (item.Info.RequiredType)
@@ -8427,8 +8686,33 @@ namespace Server.MirObjects
                     break;
                 case Spell.MentalState:
                     Info.MentalState = (byte)((Info.MentalState + 1) % 3);
-
                     ShowMentalState();
+                    break;
+                //Monk
+                case Spell.LuoHanGunFa:
+                    Info.LuoHanGunFa = state == SpellToggleState.None ? !Info.LuoHanGunFa : use;
+                    break;
+                case Spell.DaMoGunFa:
+                    if (DaMoGunFa || Envir.Time < DaMoGunFaTime) return;
+                    magic = GetMagic(spell);
+                    if (magic == null) return;
+                    cost = magic.Info.BaseCost + magic.Level * magic.Info.LevelCost;
+                    if (cost >= MP) return;
+
+                    DaMoGunFa = true;
+                    DaMoGunFaTime = Envir.Time + 9000;
+                    Enqueue(new S.SpellToggle { Spell = Spell.DaMoGunFa, CanUse = true });
+                    ChangeMP(-cost);
+                    break;
+                case Spell.TianLeiZhen:
+                    Info.TianLeiZhen = state == SpellToggleState.None ? !Info.TianLeiZhen : use;
+                    if (Info.TianLeiZhen == true)
+                    {
+                        AddBuff(BuffType.DamageHalo, this, -1, null);
+                        //AddBuff({Owner = this, Type = BuffType.DamageHalo, Caster = this, Expire = -1, TickSpeed = 1200, ObjectID = ObjectID });
+                    }
+                    else
+                        RemoveBuff(BuffType.DamageHalo);
                     break;
             }
         }

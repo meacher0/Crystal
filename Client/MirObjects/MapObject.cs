@@ -297,6 +297,9 @@ namespace Client.MirObjects
                         Effects.Add(new BuffEffect(Libraries.Monsters[(ushort)Monster.HornedCommander], 1174, 16, 1600, this, true, type) { Repeat = true, Light = 1 });
                     };
                     break;
+                case BuffType.DamageHalo: //Monk
+                    Effects.Add(new BuffEffect(Libraries.Magic3, 0, 10, 1000, this, true, type) { Repeat = true });
+                    break;
             }
         }
         public void RemoveBuffEffect(BuffType type)

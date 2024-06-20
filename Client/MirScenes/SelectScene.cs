@@ -341,7 +341,7 @@ namespace Client.MirScenes
                     MirMessageBox.Show("The class you selected does not exist.\n Contact a GM for assistance.");
                     break;
                 case 4:
-                    MirMessageBox.Show("You cannot make anymore then " + Globals.MaxCharacterCount + " Characters.");
+                    MirMessageBox.Show("You cannot make anymore than " + Globals.MaxCharacterCount + " Characters.");
                     _character.Dispose();
                     break;
                 case 5:
@@ -522,6 +522,9 @@ namespace Client.MirScenes
                     case MirClass.Archer:
                         CharacterDisplay.Index = (byte)Characters[_selected].Gender == 0 ? 100 : 140; //160 : 180;
                         break;
+                    case MirClass.Monk:
+                        CharacterDisplay.Index = 1151; //Monk (no female monk)
+                        break;
                 }
 
                 LastAccessLabel.Text = Characters[_selected].LastAccess == DateTime.MinValue ? "Never" : Characters[_selected].LastAccess.ToString();
@@ -619,7 +622,7 @@ namespace Client.MirScenes
                 Library = Libraries.Title;
 
                 Index = 660 + (byte)info.Class;
-
+                if (info.Class == MirClass.Monk) Index--;
                 if (Selected) Index += 5;
 
 

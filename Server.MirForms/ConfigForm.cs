@@ -30,6 +30,7 @@ namespace Server
             StartGameCheckBox.Checked = Settings.AllowStartGame;
             AllowAssassinCheckBox.Checked = Settings.AllowCreateAssassin;
             AllowArcherCheckBox.Checked = Settings.AllowCreateArcher;
+            AllowMonkCheckBox.Checked = Settings.AllowCreateMonk;
             Resolution_textbox.Text = Settings.AllowedResolution.ToString();
 
             SafeZoneBorderCheckBox.Checked = Settings.SafeZoneBorder;
@@ -97,6 +98,7 @@ namespace Server
             Settings.AllowStartGame = StartGameCheckBox.Checked;
             Settings.AllowCreateAssassin = AllowAssassinCheckBox.Checked;
             Settings.AllowCreateArcher = AllowArcherCheckBox.Checked;
+            Settings.AllowCreateMonk = AllowMonkCheckBox.Checked;
 
             if (int.TryParse(Resolution_textbox.Text, out tempint))
                 Settings.AllowedResolution = tempint;

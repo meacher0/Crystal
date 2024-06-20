@@ -50,6 +50,8 @@ namespace Client.MirObjects
                         return Class == MirClass.Assassin;
                     case 2:
                         return Class == MirClass.Archer;
+                    case 3:
+                        return Class == MirClass.Monk;
                 }
             }
         }
@@ -325,9 +327,12 @@ namespace Client.MirObjects
                     case MirAction.AttackRange3:
                         Frames.TryGetValue(MirAction.Attack1, out Frame);
                         break;
+                    case MirAction.JumpDown:
+                        Frames.TryGetValue(MirAction.JumpDown, out Frame);
+                        break;
                 }
 
-                if (MountType > 6 && RidingMount)
+                if (MountType > 6 && RidingMount && (CurrentAction != MirAction.JumpDown))
                 {
                     ArmourOffSet = -416;
                     BodyLibrary = TransformType < Libraries.TransformMounts.Length ? Libraries.TransformMounts[TransformType] : Libraries.TransformMounts[0];
@@ -452,7 +457,6 @@ namespace Client.MirObjects
                         break;
                     #endregion
 
-
                     #region Assassin
                     case MirClass.Assassin:
 
@@ -543,8 +547,52 @@ namespace Client.MirObjects
                         break;
                     #endregion
 
+                    #region Monk
+                    case MirClass.Monk:
+                        #region Armours
+                        BodyLibrary = Armour < Libraries.MArmours.Length ? Libraries.MArmours[Armour] : Libraries.MArmours[0];
+                        HairLibrary = Hair < Libraries.CHair.Length ? Libraries.CHair[Hair] : null;
+                        #endregion
 
-                    #region Others
+                        #region Weapons
+
+                        if (Weapon >= 0)
+                        {
+                            WeaponLibrary1 = Weapon < Libraries.MWeapons.Length ? Libraries.MWeapons[Weapon] : null;
+                            if (WeaponEffect > 0)
+                                WeaponEffectLibrary1 = WeaponEffect < Libraries.MWeaponEffect.Length ? Libraries.MWeaponEffect[WeaponEffect] : null;
+                            else
+                                WeaponEffectLibrary1 = null;
+                        }
+                        else
+                        {
+                            WeaponLibrary1 = null;
+                            WeaponEffectLibrary1 = null;
+                            WeaponLibrary2 = null;
+                        }
+
+                        #endregion
+
+                        #region WingEffects
+                        if (WingEffect > 0 && WingEffect < 100)
+                        {
+                            WingLibrary = (WingEffect - 1) < Libraries.MHumEffect.Length ? Libraries.MHumEffect[WingEffect - 1] : null;
+                        }
+                        #endregion
+
+                        #region Offsets
+                        ArmourOffSet = Gender == MirGender.Male ? 0 : 808;
+                        HairOffSet = Gender == MirGender.Male ? 0 : 808;
+                        WeaponOffSet = Gender == MirGender.Male ? 0 : 416;
+                        WingOffset = Gender == MirGender.Male ? 0 : 840;
+                        MountOffset = 0;
+                        #endregion Offsets
+
+                        break;
+
+                    #endregion Monk
+
+                    #region Wiz/War/Tao
                     case MirClass.Warrior:
                     case MirClass.Taoist:
                     case MirClass.Wizard:
@@ -1121,6 +1169,24 @@ namespace Client.MirObjects
                                 if (this == User)
                                 {
                                     MapControl.NextAction = CMain.Time + 2000; // 80%
+                                    GameScene.SpellTime = CMain.Time + 1500; //Spell Delay
+                                }
+                                break;
+                            //Monk
+                            case Spell.XiangLongGunFa:
+                                Frames.TryGetValue(MirAction.Attack1, out Frame);
+                                if (this == User)
+                                {
+                                    MapControl.NextAction = CMain.Time + 2000; // 80%
+                                    GameScene.SpellTime = CMain.Time + 1500; //Spell Delay
+                                }
+                                break;
+                            case Spell.JinGangGunFa:
+                                CurrentAction = MirAction.JumpDown;
+                                Frames.TryGetValue(MirAction.JumpDown, out Frame);
+                                if (this == User)
+                                {
+                                    MapControl.NextAction = CMain.Time + 2500;
                                     GameScene.SpellTime = CMain.Time + 1500; //Spell Delay
                                 }
                                 break;

@@ -2290,6 +2290,7 @@ namespace Server.MirEnvir
                     break;
 
                 #endregion
+
                 #region HealingCircle
 
                 case Spell.HealingCircle:
@@ -2348,8 +2349,8 @@ namespace Server.MirEnvir
 
                     break;
 
-                    #endregion
-        }
+                #endregion
+            }
 
             if (train)
                 player.LevelMagic(magic);

@@ -772,6 +772,8 @@ public enum MirAction : byte
     WalkingBow,
     RunningBow,
     Jump,
+    JumpDown,
+    PalmPush,
 
     MountStanding,
     MountWalking,
@@ -812,7 +814,8 @@ public enum MirClass : byte
     Wizard = 1,
     Taoist = 2,
     Assassin = 3,
-    Archer = 4
+    Archer = 4,
+    Monk = 5
 }
 
 public enum MirDirection : byte
@@ -1057,8 +1060,9 @@ public enum RequiredClass : byte
     Taoist = 4,
     Assassin = 8,
     Archer = 16,
+    Monk = 32,
     WarWizTao = Warrior | Wizard | Taoist,
-    None = WarWizTao | Assassin | Archer
+    None = WarWizTao | Assassin | Archer | Monk
 }
 
 [Flags]
@@ -1242,6 +1246,17 @@ public enum Spell : byte
     BindingShot = 140,
     MentalState = 141,
 
+    //Monk
+    DaMoGunFa = 160, 
+    TianLeiZhen = 161, 
+    DamageHalo = 162, 
+    XiangLongGunFa = 163, //Teleports 2steps in direction of mouse 
+    JinGangGunFa = 164,
+    JiBenGunFa = 165, //Fencing type passive
+    LuoHanGunFa = 166, 
+    ShiBuYiSha = 167, //Teleport to mouse and damage area around destination
+    Bisul = 168, 
+
     //Custom
     Blink = 151,
     Portal = 152,
@@ -1307,7 +1322,12 @@ public enum SpellEffect : byte
     FlamingMutantWeb,
     FurbolgWarriorCritical,
     Tester,
-    MoonMist
+    MoonMist,
+
+    //Monk
+    TianLeiZhen,
+    ShiBuYiSha
+
 }
 
 
@@ -1341,6 +1361,10 @@ public enum BuffType : byte
     ImmortalSkin,
     MagicShield,
     ElementalBarrier,
+
+    //Monk
+    DamageHalo,
+    Bisul,
 
     //Monster
     HornedArcherBuff = 50,

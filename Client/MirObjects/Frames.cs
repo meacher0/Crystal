@@ -1,4 +1,6 @@
-﻿namespace Client.MirObjects
+﻿using SlimDX.Direct2D;
+
+namespace Client.MirObjects
 {
     public class FrameSet : Dictionary<MirAction, Frame>
     {
@@ -183,6 +185,11 @@
             Player.Add(MirAction.AttackRange2, new Frame(160, 8, 0, 100, 160, 8, 0, 100));
             Player.Add(MirAction.AttackRange3, new Frame(224, 8, 0, 100, 224, 8, 0, 100));
             Player.Add(MirAction.Jump, new Frame(288, 8, 0, 100, 288, 8, 0, 100));
+
+            //Monk
+            Player.Add(MirAction.JumpDown, new Frame(416, 8, 0, 100, 100, 6, 0, 0));
+            Player.Add(MirAction.PalmPush, new Frame(480, 6, 0, 100, 100, 6, 0, 0));
+
 
             //Mounts
             Player.Add(MirAction.MountStanding, new Frame(416, 4, 0, 500, 448, 4, 0, 500));

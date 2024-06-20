@@ -18,6 +18,7 @@ namespace Client.MirScenes.Dialogs
                          TaoistButton,
                          AssassinButton,
                          ArcherButton,
+                         MonkButton,
                          MaleButton,
                          FemaleButton;
 
@@ -31,7 +32,7 @@ namespace Client.MirScenes.Dialogs
         #region Descriptions
         public const string WarriorDescription =
             "Warriors are a class of great strength and vitality. They are not easily killed in battle and have the advantage of being able to use" +
-            " a variety of heavy weapons and Armour. Therefore, Warriors favor attacks that are based on melee physical damage. They are weak in ranged" +
+            " a variety of heavy weapons and Armour. Therefore, Warriors favour attacks that are based on melee physical damage. They are weak in ranged" +
             " attacks, however the variety of equipment that are developed specifically for Warriors complement their weakness in ranged combat.";
 
         public const string WizardDescription =
@@ -54,6 +55,7 @@ namespace Client.MirScenes.Dialogs
             " wizards, they rely on their keen instincts to dodge oncoming attacks as they tend to leave themselves open to frontal attacks. However, their" +
             " physical prowess and deadly aim allows them to instil fear into anyone they hit.";
 
+        public const string MonkDescription = "yo mamma";
         #endregion
 
         public NewCharacterDialog()
@@ -136,6 +138,7 @@ namespace Client.MirScenes.Dialogs
             WarriorButton.Click += (o, e) =>
             {
                 Class = MirClass.Warrior;
+                FemaleButton.Visible = true;
                 UpdateInterface();
             };
 
@@ -153,6 +156,7 @@ namespace Client.MirScenes.Dialogs
             WizardButton.Click += (o, e) =>
             {
                 Class = MirClass.Wizard;
+                FemaleButton.Visible = true;
                 UpdateInterface();
             };
 
@@ -170,6 +174,7 @@ namespace Client.MirScenes.Dialogs
             TaoistButton.Click += (o, e) =>
             {
                 Class = MirClass.Taoist;
+                FemaleButton.Visible = true;
                 UpdateInterface();
             };
 
@@ -186,6 +191,7 @@ namespace Client.MirScenes.Dialogs
             AssassinButton.Click += (o, e) =>
             {
                 Class = MirClass.Assassin;
+                FemaleButton.Visible = true;
                 UpdateInterface();
             };
 
@@ -202,9 +208,27 @@ namespace Client.MirScenes.Dialogs
             ArcherButton.Click += (o, e) =>
             {
                 Class = MirClass.Archer;
+                FemaleButton.Visible = true;
                 UpdateInterface();
             };
 
+            MonkButton = new MirButton
+            {
+                HoverIndex = 2521,
+                Index = 2520,
+                Library = Libraries.Prguse,
+                Location = new Point(273, 296),
+                Parent = this,
+                PressedIndex = 2522,
+                Sound = SoundList.ButtonA,
+            };
+            MonkButton.Click += (o, e) =>
+            {
+                Class = MirClass.Monk;
+                Gender = MirGender.Male;
+                FemaleButton.Visible = false;//Monk is male only
+                UpdateInterface();
+            };
 
             MaleButton = new MirButton
             {
@@ -234,7 +258,15 @@ namespace Client.MirScenes.Dialogs
             };
             FemaleButton.Click += (o, e) =>
             {
-                Gender = MirGender.Female;
+                if (Class == MirClass.Monk)
+                {
+                    Gender = MirGender.Male;
+                }
+                else 
+                {
+                    Gender = MirGender.Female;
+                }
+
                 UpdateInterface();
             };
 
@@ -308,6 +340,7 @@ namespace Client.MirScenes.Dialogs
             TaoistButton.Index = 2432;
             AssassinButton.Index = 2435;
             ArcherButton.Index = 2438;
+            MonkButton.Index = 2520;
 
             switch (Gender)
             {
@@ -346,6 +379,12 @@ namespace Client.MirScenes.Dialogs
                     Description.Text = ArcherDescription;
                     CharacterDisplay.Index = (byte)Gender == 0 ? 100 : 140; //160 : 180;
                     break;
+                case MirClass.Monk:
+                    MonkButton.Index = 2521;
+                    Description.Text = MonkDescription;
+                    CharacterDisplay.Index = 1151;
+                    break;
+
             }
 
             //CharacterDisplay.Index = ((byte)_class + 1) * 20 + (byte)_gender * 280;

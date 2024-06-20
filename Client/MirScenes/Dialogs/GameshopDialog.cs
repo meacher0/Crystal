@@ -8,7 +8,7 @@ namespace Client.MirScenes.Dialogs
     {
         public GameShopViewer Viewer;
         public MirLabel PageNumberLabel, totalGold, totalCredits;
-        public MirButton ALL, War, Sin, Tao, Wiz, Arch;
+        public MirButton ALL, War, Sin, Tao, Wiz, Arch, Monk;
         public MirButton allItems, topItems, Deals, New;
         public MirButton CloseButton, PreviousButton, NextButton;
         public MirButton UpButton, DownButton, PositionBar;
@@ -643,6 +643,7 @@ namespace Client.MirScenes.Dialogs
             if (ClassFilter == "Taoist") Tao.Index = 761;
             if (ClassFilter == "Wizard") Wiz.Index = 764;
             if (ClassFilter == "Archer") Arch.Index = 767;
+            if (ClassFilter == "Monk") Monk.Index = 0;
         }
 
         public void GetCategories()

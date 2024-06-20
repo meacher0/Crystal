@@ -13696,6 +13696,7 @@ namespace Server.MirObjects
                 MirClass.Taoist => new TaoistHero(CurrentHero, this),
                 MirClass.Assassin => new AssassinHero(CurrentHero, this),
                 MirClass.Archer => new ArcherHero(CurrentHero, this),
+                MirClass.Monk => new MonkHero(CurrentHero, this),
                 _ => new HeroObject(CurrentHero, this)
             };            
 

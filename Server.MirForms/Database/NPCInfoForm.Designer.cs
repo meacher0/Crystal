@@ -206,7 +206,7 @@
             // 
             ConquestHidden_combo.DropDownStyle = ComboBoxStyle.DropDownList;
             ConquestHidden_combo.FormattingEnabled = true;
-            ConquestHidden_combo.Items.AddRange(new object[] { "", "Warrior", "Wizard", "Taoist", "Assassin", "Archer" });
+            ConquestHidden_combo.Items.AddRange(new object[] { "", "Warrior", "Wizard", "Taoist", "Assassin", "Archer", "Monk" });
             ConquestHidden_combo.Location = new Point(102, 220);
             ConquestHidden_combo.Margin = new Padding(4, 3, 4, 3);
             ConquestHidden_combo.Name = "ConquestHidden_combo";
@@ -483,7 +483,7 @@
             // 
             Class_combo.DropDownStyle = ComboBoxStyle.DropDownList;
             Class_combo.FormattingEnabled = true;
-            Class_combo.Items.AddRange(new object[] { "", "Warrior", "Wizard", "Taoist", "Assassin", "Archer" });
+            Class_combo.Items.AddRange(new object[] { "", "Warrior", "Wizard", "Taoist", "Assassin", "Archer", "Monk" });
             Class_combo.Location = new Point(131, 33);
             Class_combo.Margin = new Padding(4, 3, 4, 3);
             Class_combo.Name = "Class_combo";

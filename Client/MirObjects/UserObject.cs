@@ -59,6 +59,9 @@ namespace Client.MirObjects
         public MirDirection NextMagicDirection;
         public QueuedAction QueuedAction;
 
+        //Monk
+        public bool DaMoGunFa;
+
         public UserObject() { }
         public UserObject(uint objectID) : base(objectID)
         {

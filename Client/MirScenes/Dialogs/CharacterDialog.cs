@@ -678,6 +678,9 @@ namespace Client.MirScenes.Dialogs
                 case MirClass.Archer:
                     ClassImage.Index = 104;// + offSet * 5;
                     break;
+                case MirClass.Monk:
+                    ClassImage.Index = 110;// + offSet * 5;
+                    break;
             }
 
             NameLabel.Text = Actor.Name;

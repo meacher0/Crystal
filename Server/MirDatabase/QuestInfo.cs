@@ -377,6 +377,10 @@ namespace Server.MirDatabase
                     if (!RequiredClass.HasFlag(RequiredClass.Archer))
                         return false;
                     break;
+                case MirClass.Monk:
+                    if (!RequiredClass.HasFlag(RequiredClass.Monk))
+                        return false;
+                    break;
             }
 
             return true;

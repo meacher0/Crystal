@@ -149,6 +149,7 @@ namespace Server
             AllowTaoistHero_checkBox.Checked = Settings.Hero_CanCreateClass[2];
             AllowAssassinHero_checkBox.Checked = Settings.Hero_CanCreateClass[3];
             AllowArcherHero_checkBox.Checked = Settings.Hero_CanCreateClass[4];
+            AllowMonkHero_checkBox.Checked = Settings.Hero_CanCreateClass[5];
             MaxHeroSealCount_textBox.Text = Settings.HeroMaximumSealCount.ToString();
             MaxPlayerHeroCount_textBox.Text = Settings.MaximumHeroCount.ToString();
             MinPlayerLevelHero_textBox.Text = Settings.Hero_RequiredLevel.ToString();
@@ -848,6 +849,13 @@ namespace Server
             if (ActiveControl != sender) return;
 
             Settings.Hero_CanCreateClass[4] = AllowArcherHero_checkBox.Checked;
+            HeroesChanged = true;
+        }
+        private void AllowMonkHero_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ActiveControl != sender) return;
+
+            Settings.Hero_CanCreateClass[5] = AllowMonkHero_checkBox.Checked;
             HeroesChanged = true;
         }
         private void MaxHeroSealCount_textBox_TextChanged(object sender, EventArgs e)

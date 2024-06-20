@@ -310,7 +310,8 @@
             "Assassin",
             "Taoist",
             "Wizard",
-            "Archer"});
+            "Archer",
+            "Monk"});
             this.Class_combo.Location = new System.Drawing.Point(86, 156);
             this.Class_combo.Name = "Class_combo";
             this.Class_combo.Size = new System.Drawing.Size(173, 21);

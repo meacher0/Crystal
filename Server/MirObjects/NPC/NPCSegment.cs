@@ -3208,6 +3208,9 @@ namespace Server.MirObjects
                                 case MirClass.Archer:
                                     player.Info.Class = MirClass.Archer;
                                     break;
+                                case MirClass.Monk:
+                                    player.Info.Class = MirClass.Monk;
+                                    break;
                             }
                         }
                         break;

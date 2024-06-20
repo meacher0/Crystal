@@ -529,6 +529,9 @@ namespace Server.MirObjects
                         Direction = Direction
                     };
                 case Spell.ExplosiveTrap:
+                    if (!Show && !DetonatedTrap)
+                        return null;
+
                     return new S.ObjectSpell
                     {
                         ObjectID = ObjectID,

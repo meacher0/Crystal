@@ -27,6 +27,9 @@ namespace Client.MirGraphics
             Magic = new MLibrary(Settings.DataPath + "Magic"),
             Magic2 = new MLibrary(Settings.DataPath + "Magic2"),
             Magic3 = new MLibrary(Settings.DataPath + "Magic3"),
+            Magic4 = new MLibrary(Settings.DataPath + "Magic4"),
+            Magic5 = new MLibrary(Settings.DataPath + "Magic5"),
+            MagicMW = new MLibrary(Settings.DataPath + "MagicMW"),
             Effect = new MLibrary(Settings.DataPath + "Effect"),
             MagicC = new MLibrary(Settings.DataPath + "MagicC"),
             GuildSkill = new MLibrary(Settings.DataPath + "GuildSkill"),
@@ -67,6 +70,10 @@ namespace Client.MirGraphics
                                           ARWeaponsS,
                                           ARHair,
                                           ARHumEffect,
+                                          MArmours,
+                                          MWeapons,
+                                          MWeaponEffect,
+                                          MHumEffect,
                                           Monsters,
                                           Gates,
                                           Flags,
@@ -102,6 +109,12 @@ namespace Client.MirGraphics
             InitLibrary(ref ARWeapons, Settings.ARWeaponPath, "00");
             InitLibrary(ref ARWeaponsS, Settings.ARWeaponPath, "00", " S");
             InitLibrary(ref ARHumEffect, Settings.ARHumEffectPath, "00");
+
+            //Monk
+            InitLibrary(ref MArmours, Settings.MArmourPath, "00");
+            InitLibrary(ref MWeapons, Settings.MWeaponPath, "00");
+            InitLibrary(ref MWeaponEffect, Settings.MWeaponEffectPath, "00");
+            InitLibrary(ref MHumEffect, Settings.MHumEffectPath, "00");
 
             //Other
             InitLibrary(ref Monsters, Settings.MonsterPath, "000");
@@ -458,7 +471,32 @@ namespace Client.MirGraphics
                 TransformMounts[i].Initialize();
                 Progress++;
             }
-            
+
+            //Monk
+            for (int i = 0; i < MArmours.Length; i++)
+            {
+                MArmours[i].Initialize();
+                Progress++;
+            }
+
+            for (int i = 0; i < MWeapons.Length; i++)
+            {
+                MWeapons[i].Initialize();
+                Progress++;
+            }
+
+            for (int i = 0; i < MWeaponEffect.Length; i++)
+            {
+                MWeaponEffect[i].Initialize();
+                Progress++;
+            }
+
+            for (int i = 0; i < MHumEffect.Length; i++)
+            {
+                MHumEffect[i].Initialize();
+                Progress++;
+            }
+
             Loaded = true;
         }
 

@@ -158,6 +158,8 @@
                          ArcherDes = "Archers are a class of great accuracy and strength, using their powerful skills with bows to deal extraordinary damage from range. Much like" +
                                         " wizards, they rely on their keen instincts to dodge oncoming attacks as they tend to leave themselves open to frontal attacks. However, their" +
                                         " physical prowess and deadly aim allows them to instil fear into anyone they hit.",
+                         MonkDes = "Monks Description here...",
+
                          DateSent = "Date Sent : {0}",
                          Send = "Send",
                          Reply = "Reply",
@@ -439,6 +441,7 @@
         GameLanguage.TaoistDes = reader.ReadString("Language", "TaoistDes", GameLanguage.TaoistDes);
         GameLanguage.AssassinDes = reader.ReadString("Language", "AssassinDes", GameLanguage.AssassinDes);
         GameLanguage.ArcherDes = reader.ReadString("Language", "ArcherDes", GameLanguage.ArcherDes);
+        GameLanguage.MonkDes = reader.ReadString("Language", "MonkDes", GameLanguage.MonkDes);
 
         GameLanguage.DateSent = reader.ReadString("Language", "DateSent", GameLanguage.DateSent);
         GameLanguage.Send = reader.ReadString("Language", "Send", GameLanguage.Send);
@@ -676,6 +679,7 @@
         reader.Write("Language", "TaoistDes", GameLanguage.TaoistDes);
         reader.Write("Language", "AssassinDes", GameLanguage.AssassinDes);
         reader.Write("Language", "ArcherDes", GameLanguage.ArcherDes);
+        reader.Write("Language", "MonkDes", GameLanguage.MonkDes);
 
         reader.Write("Language", "DateSent", GameLanguage.DateSent);
         reader.Write("Language", "Send", GameLanguage.Send);

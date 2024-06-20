@@ -2467,6 +2467,9 @@ namespace Client.MirScenes.Dialogs
                 case MirClass.Archer:
                     ClassImage.Index = 104;// + offSet * 5;
                     break;
+                case MirClass.Monk:
+                    ClassImage.Index = 110;// + offSet * 5;
+                    break;
             }
 
             NameLabel.Text = Name;
@@ -3715,6 +3718,32 @@ namespace Client.MirScenes.Dialogs
                     break;
                 case Spell.OneWithNature:
                     SkillButton.Hint = string.Format("One With Nature\n\nBuff Skill\nMana Cost {2}\n\nSummon an elemental ring around the caster that\ndeals damage to all targets within a 5×5 radius.\n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+
+                //Monk
+                case Spell.LuoHanGunFa:
+                    SkillButton.Hint = string.Format("LuoHanGunFa\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+                case Spell.TianLeiZhen:
+                    SkillButton.Hint = string.Format("TianLeiZhen\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+                case Spell.XiangLongGunFa:
+                    SkillButton.Hint = string.Format("XiangLongGunFa\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+                case Spell.Bisul:
+                    SkillButton.Hint = string.Format("Bisul\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+                case Spell.DaMoGunFa:
+                    SkillButton.Hint = string.Format("DaMoGunFa\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+                case Spell.JiBenGunFa:
+                    SkillButton.Hint = string.Format("JiBenGunFa\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+                case Spell.JinGangGunFa:
+                    SkillButton.Hint = string.Format("JinGangGunFa\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
+                    break;
+                case Spell.ShiBuYiSha:
+                    SkillButton.Hint = string.Format("ShiBuYiSha\n\nMonk Skill\nMana Cost {2}\n\n - \n\nCurrent Skill Level {0}\nNext Level {1}", Magic.Level, Magic.Level == 0 ? Magic.Level1 : Magic.Level == 1 ? Magic.Level2 : Magic.Level == 2 ? Magic.Level3 : 0, Magic.BaseCost);
                     break;
 
 

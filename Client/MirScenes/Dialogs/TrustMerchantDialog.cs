@@ -664,6 +664,7 @@ namespace Client.MirScenes.Dialogs
             book.SubFilters.Add(new Filter { Index = 603, Title = "Taoist", Type = ItemType.Book, MinShape = 61, MaxShape = 90 });
             book.SubFilters.Add(new Filter { Index = 604, Title = "Assassin", Type = ItemType.Book, MinShape = 91, MaxShape = 120 });
             book.SubFilters.Add(new Filter { Index = 605, Title = "Archer", Type = ItemType.Book, MinShape = 121, MaxShape = 150 });
+            book.SubFilters.Add(new Filter { Index = 605, Title = "Monk", Type = ItemType.Book, MinShape = 160, MaxShape = 180 });
 
             crafting.SubFilters.Add(new Filter { Index = 701, Title = "Materials", Type = ItemType.CraftingMaterial });
             crafting.SubFilters.Add(new Filter { Index = 703, Title = "Meat", Type = ItemType.Meat });

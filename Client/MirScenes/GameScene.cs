@@ -4678,12 +4678,10 @@ namespace Client.MirScenes
 
                 switch (p.Effect)
                 {
-                    // Sanjian
                     case SpellEffect.FurbolgWarriorCritical:
                         ob.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.FurbolgWarrior], 400, 6, 600, ob));
                         SoundManager.PlaySound(20000 + (ushort)Spell.FatalSword * 10);
                         break;
-
                     case SpellEffect.FatalSword:
                         ob.Effects.Add(new Effect(Libraries.Magic2, 1940, 4, 400, ob));
                         SoundManager.PlaySound(20000 + (ushort)Spell.FatalSword * 10);
@@ -4883,8 +4881,11 @@ namespace Client.MirScenes
                     case SpellEffect.MoonMist:
                         ob.Effects.Add(new Effect(Libraries.Magic3, 705, 10, 800, ob));
                         break;
+                    //Monk
+                    case SpellEffect.TianLeiZhen:
+                        ob.Effects.Add(new Effect(Libraries.Magic4, 429, 8, 1200, ob, 0, true));
+                        break;
                 }
-
                 return;
             }
         }
@@ -5066,6 +5067,11 @@ namespace Client.MirScenes
                         ChatDialog.ReceiveChat(prefix + GameLanguage.WeaponSpiritFire, ChatType.Hint);
                     else
                         ChatDialog.ReceiveChat(prefix + GameLanguage.SpiritsFireDisappeared, ChatType.System);
+                    break;
+                //Monk
+                case Spell.DaMoGunFa:
+                    actor.DaMoGunFa = p.CanUse;
+                    ChatDialog.ReceiveChat(prefix + (actor.DaMoGunFa ? "Use DaMoGunFa" : "Do not use DaMoGunFa"), ChatType.Hint);
                     break;
             }
         }
@@ -6115,6 +6121,7 @@ namespace Client.MirScenes
             NewHeroDialog.TaoistButton.Visible = p.CanCreateClass[(int)MirClass.Taoist];
             NewHeroDialog.AssassinButton.Visible = p.CanCreateClass[(int)MirClass.Assassin];
             NewHeroDialog.ArcherButton.Visible = p.CanCreateClass[(int)MirClass.Archer];
+            NewHeroDialog.MonkButton.Visible = p.CanCreateClass[(int)MirClass.Monk];
 
             NewHeroDialog.Show();            
         }
@@ -8830,6 +8837,10 @@ namespace Client.MirScenes
                         break;
                     case MirClass.Archer:
                         if (!realItem.RequiredClass.HasFlag(RequiredClass.Archer))
+                            colour = Color.Red;
+                        break;
+                    case MirClass.Monk:
+                        if (!realItem.RequiredClass.HasFlag(RequiredClass.Monk))
                             colour = Color.Red;
                         break;
                 }
